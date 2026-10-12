@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>연차 계산기 (연차 개수, 연차수당) | 월급계산소</title>
+<meta name="description" content="입사일만 넣으면 근로기준법 기준으로 올해 발생하는 연차 일수를 계산하고, 못 쓴 연차의 연차수당도 함께 계산합니다.">
+<link rel="canonical" href="https://example.com/annual-leave/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="월급계산소">
+<meta property="og:title" content="연차 계산기 (연차 개수, 연차수당) | 월급계산소">
+<meta property="og:description" content="입사일만 넣으면 근로기준법 기준으로 올해 발생하는 연차 일수를 계산하고, 못 쓴 연차의 연차수당도 함께 계산합니다.">
+<meta property="og:url" content="https://example.com/annual-leave/">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+</head>
+<body>
+<header class="site"><div class="wrap">
+<a class="logo" href="/">월급<span>계산소</span></a>
+<nav class="top"><a href="/salary/">연봉 실수령액</a><a href="/severance/">퇴직금</a><a href="/weekly-holiday-pay/">주휴수당</a><a href="/unemployment/">실업급여</a><a href="/annual-leave/" aria-current="page">연차</a></nav>
+</div></header>
+<main><div class="wrap">
+<h1>연차 계산기</h1>
+<p class="lead">입사일 기준으로 지금 몇 개의 연차가 생겼는지, 못 쓴 연차를 돈으로 받으면 얼마인지 계산합니다.</p>
+
+<div class="card">
+  <div class="grid2">
+    <div class="field">
+      <label for="start">입사일</label>
+      <input id="start" type="date" value="2024-03-02">
+    </div>
+    <div class="field">
+      <label for="base">기준일</label>
+      <input id="base" type="date" data-today>
+    </div>
+  </div>
+  <div class="grid2">
+    <div class="field">
+      <label for="hourly">통상시급</label>
+      <div class="input-row"><input id="hourly" class="money" type="text" inputmode="numeric" value="14,354"><span class="unit">원</span></div>
+      <div class="hint">월 통상임금 ÷ 209시간. 월 300만 원이면 약 14,354원입니다.</div>
+    </div>
+    <div class="field">
+      <label for="unused">못 쓴 연차</label>
+      <div class="input-row"><input id="unused" type="number" inputmode="decimal" value="5" min="0" max="25" step="0.5"><span class="unit">일</span></div>
+    </div>
+  </div>
+  <button class="primary" id="go">계산하기</button>
+
+  <div class="result" id="result">
+    <div class="big"><div class="label" id="r-label">발생 연차</div><div class="value" id="r-days"></div></div>
+    <table class="breakdown">
+      <tr><td>근속기간</td><td id="r-tenure"></td></tr>
+      <tr class="total"><td>예상 연차수당</td><td id="r-pay"></td></tr>
+    </table>
+    <p class="note" id="r-note"></p>
+  </div>
+</div>
+
+<div class="ad-slot"></div>
+
+<article>
+<h2>연차가 생기는 규칙</h2>
+<ul>
+  <li><strong>입사 1년 미만</strong>: 한 달 개근할 때마다 1일, 최대 11일</li>
+  <li><strong>1년 이상</strong>: 1년 동안 80% 이상 출근하면 15일</li>
+  <li><strong>3년 이상</strong>: 2년마다 1일씩 늘어나 최대 25일</li>
+</ul>
+<table class="ref">
+  <thead><tr><th>근속연수</th><th>연차</th></tr></thead>
+  <tbody>
+    <tr><td>1년</td><td>15일</td></tr>
+    <tr><td>3년</td><td>16일</td></tr>
+    <tr><td>5년</td><td>17일</td></tr>
+    <tr><td>7년</td><td>18일</td></tr>
+    <tr><td>9년</td><td>19일</td></tr>
+    <tr><td>11년</td><td>20일</td></tr>
+    <tr><td>21년 이상</td><td>25일 (최대)</td></tr>
+  </tbody>
+</table>
+<p>5인 미만 사업장은 연차 규정이 적용되지 않습니다.</p>
+
+<h2>연차수당 계산</h2>
+<p>쓰지 못한 연차는 <strong>미사용 일수 × 통상시급 × 8시간</strong>으로 받습니다. 다만 회사가 법에 맞는 연차 사용 촉진(서면으로 사용을 독려)을 했다면 수당을 주지 않아도 됩니다.</p>
+
+<h2>자주 묻는 질문</h2>
+<dl class="faq">
+  <dt>입사 첫해에 쓴 연차는 2년차 15일에서 빠지나요?</dt>
+  <dd>빠지지 않습니다. 2018년 법 개정 이후 1년 미만 기간의 연차(최대 11일)와 1년 차 이후의 15일은 따로 계산합니다.</dd>
+  <dt>회사가 회계연도(1월 1일) 기준으로 연차를 줘요.</dt>
+  <dd>회계연도 기준도 허용되지만, 퇴사할 때는 입사일 기준으로 다시 계산해서 근로자에게 불리하지 않게 정산해야 합니다. 이 계산기는 입사일 기준입니다.</dd>
+</dl>
+<p class="updated">기준: 근로기준법 제60조. 최종 확인 2026년 10월.</p>
+</article>
+
+</div></main>
+<footer class="site"><div class="wrap">
+<p><a href="/about/">사이트 소개</a><a href="/privacy/">개인정보처리방침</a><a href="/terms/">이용약관</a></p>
+<p>계산 결과는 입력값과 공개된 기준으로 낸 추정치이며, 실제 지급액은 회사와 기관의 산정에 따라 다를 수 있습니다.</p>
+<p>© 2026 월급계산소</p>
+</div></footer>
+<script src="/assets/calc.js"></script>
+<script src="/assets/ui.js"></script>
+<script src="/assets/page-leave.js"></script>
+</body>
+</html>

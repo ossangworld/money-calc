@@ -1,0 +1,86 @@
+<!--
+title: 2026 연봉 실수령액 계산기
+description: 연봉을 입력하면 2026년 4대보험 요율과 소득세 기준으로 매달 통장에 들어오는 실수령액과 공제 내역을 바로 계산합니다.
+path: /salary/
+script: page-salary.js
+-->
+<h1>2026 연봉 실수령액 계산기</h1>
+<p class="lead">연봉을 넣으면 국민연금, 건강보험, 고용보험, 소득세를 빼고 매달 실제로 받는 금액을 계산합니다.</p>
+
+<div class="card">
+  <div class="field">
+    <label for="annual">연봉 (세전, 퇴직금 제외)</label>
+    <div class="input-row"><input id="annual" class="money" type="text" inputmode="numeric" value="40,000,000"><span class="unit">원</span></div>
+  </div>
+  <div class="field">
+    <label for="nontax">월 비과세액</label>
+    <div class="input-row"><input id="nontax" class="money" type="text" inputmode="numeric" value="200,000"><span class="unit">원</span></div>
+    <div class="hint">식대는 월 20만 원까지 비과세입니다. 잘 모르면 20만 원 그대로 두세요.</div>
+  </div>
+  <div class="grid2">
+    <div class="field">
+      <label for="dependents">부양가족 수 (본인 포함)</label>
+      <select id="dependents"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option></select>
+    </div>
+    <div class="field">
+      <label for="children">8세~20세 자녀 수</label>
+      <select id="children"><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option></select>
+    </div>
+  </div>
+  <button class="primary" id="go">계산하기</button>
+
+  <div class="result" id="result">
+    <div class="big"><div class="label">월 예상 실수령액</div><div class="value" id="r-net"></div></div>
+    <table class="breakdown">
+      <tr><td>월 급여 (세전)</td><td id="r-monthly"></td></tr>
+      <tr><td>국민연금 (4.75%)</td><td id="r-pension"></td></tr>
+      <tr><td>건강보험 (3.595%)</td><td id="r-health"></td></tr>
+      <tr><td>장기요양보험 (건강보험료의 13.14%)</td><td id="r-care"></td></tr>
+      <tr><td>고용보험 (0.9%)</td><td id="r-employment"></td></tr>
+      <tr><td>근로소득세</td><td id="r-income"></td></tr>
+      <tr><td>지방소득세 (소득세의 10%)</td><td id="r-local"></td></tr>
+      <tr class="total"><td>공제액 합계</td><td id="r-total"></td></tr>
+      <tr class="total"><td>연간 실수령액</td><td id="r-annual"></td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="ad-slot"></div>
+
+<article>
+<h2>실수령액은 이렇게 계산합니다</h2>
+<p>연봉을 12로 나눈 월급에서 비과세액을 뺀 금액이 4대보험과 세금의 기준이 됩니다. 여기서 아래 여섯 가지를 빼면 실수령액입니다.</p>
+<ol>
+  <li><strong>국민연금</strong>: 기준소득월액의 4.75%. 2026년부터 총 보험료율이 9%에서 9.5%로 올라 근로자 몫도 4.5%에서 4.75%가 됐습니다. 기준소득월액은 41만 원~659만 원 사이로 잘라서 계산합니다(2026년 7월~2027년 6월 기준).</li>
+  <li><strong>건강보험</strong>: 월 보수의 3.595% (총 7.19%를 회사와 절반씩).</li>
+  <li><strong>장기요양보험</strong>: 건강보험료의 13.14%. 소득 대비로는 0.9448%를 회사와 나눠 냅니다.</li>
+  <li><strong>고용보험</strong>: 월 보수의 0.9%.</li>
+  <li><strong>근로소득세</strong>: 1년 치 소득에 근로소득공제, 인적공제, 보험료 공제를 적용해 세금을 구한 뒤 12로 나눈 추정치입니다.</li>
+  <li><strong>지방소득세</strong>: 근로소득세의 10%.</li>
+</ol>
+
+<h2>2026년 연봉별 실수령액 예시</h2>
+<p>비과세 식대 20만 원, 부양가족 1명(본인)으로 계산한 값입니다.</p>
+<table class="ref">
+  <thead><tr><th>연봉</th><th>월 실수령액</th><th>월 공제액</th></tr></thead>
+  <tbody>
+{{SALARY_TABLE}}
+  </tbody>
+</table>
+
+<h2>회사 월급과 결과가 다른 이유</h2>
+<p>회사는 국세청 <strong>근로소득 간이세액표</strong>로 매달 세금을 떼고, 다음 해 연말정산에서 실제 세금과의 차이를 돌려주거나 더 걷습니다. 이 계산기는 연간 세금을 기준으로 추정하므로 매달 떼는 금액과 몇만 원 차이가 날 수 있지만, 1년 전체로 보면 실제 부담에 더 가깝습니다. 또 건강보험료는 전년도 보수를 기준으로 냈다가 4월에 정산하기 때문에 연봉이 오른 해에는 4월 월급에서 추가로 빠질 수 있습니다.</p>
+
+<h2>자주 묻는 질문</h2>
+<dl class="faq">
+  <dt>연봉에 퇴직금이 포함된 계약이면 어떻게 넣나요?</dt>
+  <dd>퇴직금 포함 연봉이라면 연봉을 13으로 나눈 값의 12배를 넣으세요. 예를 들어 퇴직금 포함 5,200만 원이면 4,800만 원을 넣으면 됩니다.</dd>
+  <dt>비과세에는 무엇이 들어가나요?</dt>
+  <dd>대표적으로 식대(월 20만 원), 자가운전보조금(월 20만 원), 6세 이하 자녀 보육수당(월 20만 원), 연구활동비 등이 있습니다. 급여명세서에서 비과세 항목을 확인해 합계를 넣으세요.</dd>
+  <dt>부양가족은 누구까지 넣나요?</dt>
+  <dd>본인과, 소득이 거의 없는 배우자, 20세 이하 자녀, 60세 이상 부모님 등 기본공제 대상자를 셉니다. 한 명당 연 150만 원이 소득에서 공제됩니다.</dd>
+  <dt>국민연금이 연봉에 비해 적게 나와요.</dt>
+  <dd>국민연금은 기준소득월액 상한(659만 원)이 있어서 월급이 그보다 많아도 최대 313,020원까지만 냅니다.</dd>
+</dl>
+<p class="updated">기준: 2026년 4대보험 요율, 2026년 소득세율. 최종 확인 2026년 10월.</p>
+</article>
