@@ -82,7 +82,7 @@ ${adsenseHead()}
 </head>
 <body>
 <header class="site"><div class="wrap">
-<a class="logo" href="/">월급<span>계산소</span></a>
+<a class="logo" href="/">직장인<span>계산기</span></a>
 <nav class="top">${nav}</nav>
 </div></header>
 <main><div class="wrap">
