@@ -2,5 +2,7 @@
   "name": "직장인계산기",
   "url": "https://jikcalc.ossangworld.workers.dev",
   "email": "contact@example.com",
-  "adsenseClient": ""
+  "adsenseClient": "",
+  "googleVerification": "",
+  "naverVerification": ""
 }

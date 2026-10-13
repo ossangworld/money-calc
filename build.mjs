@@ -79,6 +79,8 @@ function layout(page) {
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/style.css">
 ${adsenseHead()}
+${config.googleVerification ? `<meta name="google-site-verification" content="${config.googleVerification}">` : ''}
+${config.naverVerification ? `<meta name="naver-site-verification" content="${config.naverVerification}">` : ''}
 </head>
 <body>
 <header class="site"><div class="wrap">
