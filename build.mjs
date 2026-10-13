@@ -35,6 +35,9 @@ const NAV = [
   ['/insurance/', '4대보험'],
   ['/wage/', '시급·월급'],
   ['/parental-leave/', '육아휴직'],
+  ['/raise/', '연봉 인상'],
+  ['/retirement-tax/', '퇴직소득세'],
+  ['/loan/', '대출이자'],
 ];
 
 function parsePage(file) {

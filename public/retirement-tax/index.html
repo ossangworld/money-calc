@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>퇴직소득세 계산기 (퇴직금 실수령액) | 직장인계산기</title>
+<meta name="description" content="퇴직금과 근속기간을 넣으면 근속연수공제와 환산급여공제를 적용해 퇴직소득세와 지방소득세, 세후 퇴직금 실수령액을 계산합니다.">
+<link rel="canonical" href="https://jikcalc.com/retirement-tax/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="직장인계산기">
+<meta property="og:title" content="퇴직소득세 계산기 (퇴직금 실수령액) | 직장인계산기">
+<meta property="og:description" content="퇴직금과 근속기간을 넣으면 근속연수공제와 환산급여공제를 적용해 퇴직소득세와 지방소득세, 세후 퇴직금 실수령액을 계산합니다.">
+<meta property="og:url" content="https://jikcalc.com/retirement-tax/">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5077524871314888" crossorigin="anonymous"></script>
+
+<meta name="naver-site-verification" content="1f7d790152742b184659aa43fb7ea9acd8b55f08">
+</head>
+<body>
+<header class="site"><div class="wrap">
+<a class="logo" href="/">직장인<span>계산기</span></a>
+<nav class="top"><a href="/salary/">연봉 실수령액</a><a href="/severance/">퇴직금</a><a href="/weekly-holiday-pay/">주휴수당</a><a href="/unemployment/">실업급여</a><a href="/annual-leave/">연차</a><a href="/insurance/">4대보험</a><a href="/wage/">시급·월급</a><a href="/parental-leave/">육아휴직</a><a href="/raise/">연봉 인상</a><a href="/retirement-tax/" aria-current="page">퇴직소득세</a><a href="/loan/">대출이자</a></nav>
+</div></header>
+<main><div class="wrap">
+<h1>퇴직소득세 계산기</h1>
+<p class="lead">퇴직금에서 세금이 얼마나 빠지는지, 통장에 실제로 들어오는 금액을 계산합니다.</p>
+
+<div class="card">
+  <div class="field">
+    <label for="amount">퇴직금 (세전)</label>
+    <div class="input-row"><input id="amount" class="money" type="text" inputmode="numeric" value="30,000,000"><span class="unit">원</span></div>
+    <div class="hint">퇴직금을 모르면 <a href="/severance/">퇴직금 계산기</a>로 먼저 계산해 보세요.</div>
+  </div>
+  <div class="grid2">
+    <div class="field">
+      <label for="start">입사일</label>
+      <input id="start" type="date" value="2016-03-02">
+    </div>
+    <div class="field">
+      <label for="end">퇴직일</label>
+      <input id="end" type="date" data-today>
+    </div>
+  </div>
+  <button class="primary" id="go">계산하기</button>
+
+  <div class="result" id="result">
+    <div class="big"><div class="label">세후 퇴직금 실수령액</div><div class="value" id="r-net"></div></div>
+    <table class="breakdown">
+      <tr><td>근속연수 (1년 미만은 1년으로)</td><td id="r-years"></td></tr>
+      <tr><td>근속연수공제</td><td id="r-service"></td></tr>
+      <tr><td>환산급여</td><td id="r-converted"></td></tr>
+      <tr><td>환산급여공제</td><td id="r-conv-ded"></td></tr>
+      <tr><td>과세표준</td><td id="r-base"></td></tr>
+      <tr><td>퇴직소득세</td><td id="r-tax"></td></tr>
+      <tr><td>지방소득세</td><td id="r-local"></td></tr>
+      <tr class="total"><td>세금 합계 (실효세율)</td><td id="r-total"></td></tr>
+    </table>
+  </div>
+</div>
+
+<div class="ad-slot"></div>
+
+<article>
+<h2>퇴직소득세 계산 순서</h2>
+<ol>
+  <li><strong>근속연수공제</strong>: 오래 일할수록 많이 빼줍니다 (아래 표).</li>
+  <li><strong>환산급여</strong>: (퇴직금 − 근속연수공제) × 12 ÷ 근속연수. 1년 치 소득처럼 바꿔서 계산합니다.</li>
+  <li><strong>환산급여공제</strong>: 환산급여 구간별로 한 번 더 빼줍니다.</li>
+  <li><strong>세금</strong>: (환산급여 − 환산급여공제)에 소득세율을 곱한 뒤, 다시 근속연수 ÷ 12를 곱합니다.</li>
+  <li><strong>지방소득세</strong>: 퇴직소득세의 10%가 더해집니다.</li>
+</ol>
+
+<h2>근속연수공제</h2>
+<table class="ref">
+  <thead><tr><th>근속연수</th><th>공제액</th></tr></thead>
+  <tbody>
+    <tr><td>5년 이하</td><td>100만 원 × 근속연수</td></tr>
+    <tr><td>5년 초과 10년 이하</td><td>500만 원 + 200만 원 × (근속연수 − 5)</td></tr>
+    <tr><td>10년 초과 20년 이하</td><td>1,500만 원 + 250만 원 × (근속연수 − 10)</td></tr>
+    <tr><td>20년 초과</td><td>4,000만 원 + 300만 원 × (근속연수 − 20)</td></tr>
+  </tbody>
+</table>
+
+<h2>환산급여공제</h2>
+<table class="ref">
+  <thead><tr><th>환산급여</th><th>공제액</th></tr></thead>
+  <tbody>
+    <tr><td>800만 원 이하</td><td>전액</td></tr>
+    <tr><td>7,000만 원 이하</td><td>800만 원 + 초과분의 60%</td></tr>
+    <tr><td>1억 원 이하</td><td>4,520만 원 + 초과분의 55%</td></tr>
+    <tr><td>3억 원 이하</td><td>6,170만 원 + 초과분의 45%</td></tr>
+    <tr><td>3억 원 초과</td><td>1억 5,170만 원 + 초과분의 35%</td></tr>
+  </tbody>
+</table>
+
+<h2>자주 묻는 질문</h2>
+<dl class="faq">
+  <dt>퇴직금을 IRP로 받으면 세금이 줄어드나요?</dt>
+  <dd>IRP 계좌로 받으면 퇴직소득세를 바로 떼지 않고, 나중에 55세 이후 연금으로 나눠 받을 때 세금의 30~40%를 깎아줍니다. 중간에 일시금으로 찾으면 원래 세금을 냅니다.</dd>
+  <dt>퇴직금 3천만 원, 10년 근무면 세금이 얼마인가요?</dt>
+  <dd>근속연수공제 1,500만 원, 환산급여 1,800만 원, 환산급여공제 1,400만 원으로 과세표준은 400만 원입니다. 세금은 24만 원 × 10 ÷ 12 = 20만 원, 지방소득세를 더해 약 22만 원입니다.</dd>
+</dl>
+<p class="updated">기준: 소득세법 퇴직소득 과세 방식(2023년 이후 귀속). 최종 확인 2026년 10월.</p>
+</article>
+
+</div></main>
+<footer class="site"><div class="wrap">
+<p><a href="/about/">사이트 소개</a><a href="/privacy/">개인정보처리방침</a><a href="/terms/">이용약관</a></p>
+<p>계산 결과는 입력값과 공개된 기준으로 낸 추정치이며, 실제 지급액은 회사와 기관의 산정에 따라 다를 수 있습니다.</p>
+<p>© 2026 직장인계산기</p>
+</div></footer>
+<script src="/assets/calc.js"></script>
+<script src="/assets/ui.js"></script>
+<script src="/assets/page-retirement-tax.js"></script>
+</body>
+</html>

@@ -275,6 +275,77 @@
     return { rows: rows, total: total };
   }
 
+
+  /**
+   * 대출 상환. method: 'equal'(원리금균등), 'principal'(원금균등), 'bullet'(만기일시)
+   * opts: { principal, annualRate(%), months, method }
+   */
+  function loan(opts) {
+    var P = opts.principal, n = opts.months, r = opts.annualRate / 100 / 12;
+    var rows = [], balance = P, totalInterest = 0;
+    var fixed = r === 0 ? P / n : P * r * Math.pow(1 + r, n) / (Math.pow(1 + r, n) - 1);
+    for (var i = 1; i <= n; i++) {
+      var interest = balance * r, principalPart;
+      if (opts.method === 'principal') principalPart = P / n;
+      else if (opts.method === 'bullet') principalPart = i === n ? balance : 0;
+      else principalPart = fixed - interest;
+      if (i === n) principalPart = balance;
+      balance -= principalPart;
+      totalInterest += interest;
+      rows.push({ month: i, payment: Math.round(principalPart + interest), principal: Math.round(principalPart), interest: Math.round(interest), balance: Math.max(0, Math.round(balance)) });
+    }
+    return { rows: rows, firstPayment: rows[0].payment, totalInterest: Math.round(totalInterest), totalPayment: Math.round(P + totalInterest) };
+  }
+
+  /**
+   * 퇴직소득세 (2023년 이후 기준, 지방소득세 포함).
+   * opts: { amount(퇴직금), start, end(퇴직일) } 근속연수는 1년 미만 끝수를 1년으로 본다.
+   */
+  function retirementTax(opts) {
+    var days = daysBetween(parseDate(opts.start), parseDate(opts.end));
+    var months = Math.ceil(days / 365.25 * 12 - 1e-9);
+    var years = Math.max(1, Math.ceil(months / 12));
+    var amount = opts.amount;
+    var serviceDeduction =
+      years <= 5 ? 1000000 * years :
+      years <= 10 ? 5000000 + 2000000 * (years - 5) :
+      years <= 20 ? 15000000 + 2500000 * (years - 10) :
+      40000000 + 3000000 * (years - 20);
+    serviceDeduction = Math.min(serviceDeduction, amount);
+    var converted = (amount - serviceDeduction) * 12 / years;
+    var convDeduction =
+      converted <= 8000000 ? converted :
+      converted <= 70000000 ? 8000000 + (converted - 8000000) * 0.6 :
+      converted <= 100000000 ? 45200000 + (converted - 70000000) * 0.55 :
+      converted <= 300000000 ? 61700000 + (converted - 100000000) * 0.45 :
+      151700000 + (converted - 300000000) * 0.35;
+    var base = Math.max(0, converted - convDeduction);
+    var tax = Math.floor(progressiveTax(base) * years / 12);
+    var local = Math.floor(tax * 0.1);
+    return {
+      years: years, serviceDeduction: serviceDeduction, converted: Math.round(converted),
+      convDeduction: Math.round(convDeduction), base: Math.round(base),
+      tax: tax, localTax: local, totalTax: tax + local, net: amount - tax - local,
+      effectiveRate: amount > 0 ? (tax + local) / amount : 0
+    };
+  }
+
+  /**
+   * 연봉 인상 전후 실수령 비교.
+   * opts: { annual, raisePercent, nonTaxableMonthly, dependents, children }
+   */
+  function salaryRaise(opts) {
+    var after = Math.round(opts.annual * (1 + opts.raisePercent / 100));
+    var base = { nonTaxableMonthly: opts.nonTaxableMonthly, dependents: opts.dependents, children: opts.children };
+    var before = netSalary(Object.assign({ annual: opts.annual }, base));
+    var afterNet = netSalary(Object.assign({ annual: after }, base));
+    return {
+      newAnnual: after, before: before, after: afterNet,
+      monthlyGrossDiff: afterNet.monthly - before.monthly,
+      monthlyNetDiff: afterNet.netMonthly - before.netMonthly
+    };
+  }
+
   var Calc = {
     RATES: RATES,
     netSalary: netSalary,
@@ -286,6 +357,9 @@
     socialInsurance: socialInsurance,
     wageConvert: wageConvert,
     parentalLeave: parentalLeave,
+    loan: loan,
+    retirementTax: retirementTax,
+    salaryRaise: salaryRaise,
     _internal: { earnedIncomeDeduction: earnedIncomeDeduction, progressiveTax: progressiveTax }
   };
 
