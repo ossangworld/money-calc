@@ -32,6 +32,9 @@ const NAV = [
   ['/weekly-holiday-pay/', '주휴수당'],
   ['/unemployment/', '실업급여'],
   ['/annual-leave/', '연차'],
+  ['/insurance/', '4대보험'],
+  ['/wage/', '시급·월급'],
+  ['/parental-leave/', '육아휴직'],
 ];
 
 function parsePage(file) {

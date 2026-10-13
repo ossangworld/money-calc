@@ -21,7 +21,8 @@
     [300000000, 0.38], [500000000, 0.40], [1000000000, 0.42], [Infinity, 0.45]
   ];
 
-  function floor10(n) { return Math.floor(n / 10) * 10; }
+  // 부동소수점 오차(27000이 26999.999…가 되는 것) 때문에 아주 작은 값을 더한다
+  function floor10(n) { return Math.floor(n / 10 + 1e-9) * 10; }
 
   function earnedIncomeDeduction(gross) {
     var d;
@@ -201,6 +202,79 @@
     return Math.round(opts.hourly * (opts.dailyHours || 8) * opts.unusedDays);
   }
 
+
+  // 고용보험 사업주 부담 중 고용안정·직업능력개발사업 요율 (기업 규모별)
+  var EMPLOYER_EMPLOYMENT_EXTRA = {
+    under150: 0.0025,   // 150인 미만
+    priority: 0.0045,   // 150인 이상 우선지원대상기업
+    under1000: 0.0065,  // 150인 이상 1,000인 미만
+    over1000: 0.0085    // 1,000인 이상, 국가·지자체
+  };
+
+  /**
+   * 4대보험 근로자·사업주 부담. 산재보험은 업종마다 달라 사업주 합계에서 뺀다.
+   * opts: { monthly(월 보수, 비과세 제외), companySize }
+   */
+  function socialInsurance(opts) {
+    var m = opts.monthly;
+    var pensionBase = Math.min(Math.max(m, RATES.pensionMin), RATES.pensionMax);
+    var pension = floor10(pensionBase * RATES.pension);
+    var health = floor10(m * RATES.health);
+    var care = floor10(health * RATES.longTermCare);
+    var employment = floor10(m * RATES.employment);
+    var extra = EMPLOYER_EMPLOYMENT_EXTRA[opts.companySize] || EMPLOYER_EMPLOYMENT_EXTRA.under150;
+    var employer = {
+      pension: pension, health: health, care: care,
+      employment: floor10(m * (RATES.employment + extra))
+    };
+    employer.total = employer.pension + employer.health + employer.care + employer.employment;
+    var worker = { pension: pension, health: health, care: care, employment: employment };
+    worker.total = pension + health + care + employment;
+    return { worker: worker, employer: employer, total: worker.total + employer.total };
+  }
+
+  /**
+   * 시급, 월급, 연봉 서로 바꾸기. 월 209시간(주 40시간 + 주휴 8시간 기준).
+   * opts: { amount, unit: 'hourly'|'monthly'|'annual', monthlyHours }
+   */
+  function wageConvert(opts) {
+    var h = opts.monthlyHours || 209;
+    var hourly = opts.unit === 'hourly' ? opts.amount
+      : opts.unit === 'monthly' ? opts.amount / h
+      : opts.amount / 12 / h;
+    return {
+      hourly: Math.round(hourly),
+      daily: Math.round(hourly * 8),
+      monthly: Math.round(hourly * h),
+      annual: Math.round(hourly * h * 12),
+      belowMinimum: hourly < RATES.minimumWage - 0.5
+    };
+  }
+
+  // 6+6 부모육아휴직제 첫 6개월 월 상한 (부모 각각)
+  var SIX_PLUS_SIX_CAPS = [2500000, 2500000, 3000000, 3500000, 4000000, 4500000];
+
+  /**
+   * 육아휴직급여. 2025년 개편 기준(사후지급금 폐지).
+   * 1~3개월 100%(상한 250만), 4~6개월 100%(상한 200만), 7개월~ 80%(상한 160만), 하한 70만.
+   * opts: { monthlyWage(월 통상임금), months, sixPlusSix(부모 모두 사용) }
+   */
+  function parentalLeave(opts) {
+    var w = opts.monthlyWage, rows = [], total = 0;
+    for (var i = 1; i <= opts.months; i++) {
+      var rate, cap;
+      if (opts.sixPlusSix && i <= 6) { rate = 1; cap = SIX_PLUS_SIX_CAPS[i - 1]; }
+      else if (i <= 3) { rate = 1; cap = 2500000; }
+      else if (i <= 6) { rate = 1; cap = 2000000; }
+      else { rate = 0.8; cap = 1600000; }
+      var pay = Math.max(Math.min(w * rate, cap), 700000);
+      pay = floor10(pay);
+      rows.push({ month: i, rate: rate, cap: cap, pay: pay });
+      total += pay;
+    }
+    return { rows: rows, total: total };
+  }
+
   var Calc = {
     RATES: RATES,
     netSalary: netSalary,
@@ -209,6 +283,9 @@
     unemployment: unemployment,
     annualLeave: annualLeave,
     annualLeavePay: annualLeavePay,
+    socialInsurance: socialInsurance,
+    wageConvert: wageConvert,
+    parentalLeave: parentalLeave,
     _internal: { earnedIncomeDeduction: earnedIncomeDeduction, progressiveTax: progressiveTax }
   };
 

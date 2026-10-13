@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2026 육아휴직급여 계산기 (6+6 부모육아휴직제 포함) | 직장인계산기</title>
+<meta name="description" content="월 통상임금과 휴직 개월 수를 넣으면 2026년 기준 매달 받는 육아휴직급여와 총액을 계산합니다. 부모가 함께 쓰는 6+6 제도도 반영했습니다.">
+<link rel="canonical" href="https://jikcalc.com/parental-leave/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="직장인계산기">
+<meta property="og:title" content="2026 육아휴직급여 계산기 (6+6 부모육아휴직제 포함) | 직장인계산기">
+<meta property="og:description" content="월 통상임금과 휴직 개월 수를 넣으면 2026년 기준 매달 받는 육아휴직급여와 총액을 계산합니다. 부모가 함께 쓰는 6+6 제도도 반영했습니다.">
+<meta property="og:url" content="https://jikcalc.com/parental-leave/">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+
+<meta name="naver-site-verification" content="1f7d790152742b184659aa43fb7ea9acd8b55f08">
+</head>
+<body>
+<header class="site"><div class="wrap">
+<a class="logo" href="/">직장인<span>계산기</span></a>
+<nav class="top"><a href="/salary/">연봉 실수령액</a><a href="/severance/">퇴직금</a><a href="/weekly-holiday-pay/">주휴수당</a><a href="/unemployment/">실업급여</a><a href="/annual-leave/">연차</a><a href="/insurance/">4대보험</a><a href="/wage/">시급·월급</a><a href="/parental-leave/" aria-current="page">육아휴직</a></nav>
+</div></header>
+<main><div class="wrap">
+<h1>2026 육아휴직급여 계산기</h1>
+<p class="lead">월급과 휴직 기간을 넣으면 매달 받는 육아휴직급여와 총액을 계산합니다.</p>
+
+<div class="card">
+  <div class="grid2">
+    <div class="field">
+      <label for="wage">월 통상임금</label>
+      <div class="input-row"><input id="wage" class="money" type="text" inputmode="numeric" value="3,000,000"><span class="unit">원</span></div>
+      <div class="hint">기본급에 매달 고정으로 받는 수당을 더한 금액입니다.</div>
+    </div>
+    <div class="field">
+      <label for="months">휴직 기간</label>
+      <select id="months">
+        <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option selected>6</option>
+        <option>7</option><option>8</option><option>9</option><option>10</option><option>11</option><option>12</option>
+        <option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option>
+      </select>
+    </div>
+  </div>
+  <div class="field"><label class="check"><input id="six" type="checkbox"> 부모가 모두 육아휴직 (6+6 부모육아휴직제)</label>
+    <div class="hint">생후 18개월 이내 자녀를 둔 부모가 함께(또는 차례로) 휴직하면 첫 6개월 상한이 올라갑니다.</div>
+  </div>
+  <button class="primary" id="go">계산하기</button>
+
+  <div class="result" id="result">
+    <div class="big"><div class="label">총 예상 수령액 (본인 기준)</div><div class="value" id="r-total"></div></div>
+    <table class="breakdown" id="r-rows"></table>
+    <p class="note" id="r-note"></p>
+  </div>
+</div>
+
+<div class="ad-slot"></div>
+
+<article>
+<h2>2026년 육아휴직급여 지급 기준</h2>
+<table class="ref">
+  <thead><tr><th>기간</th><th>지급률</th><th>월 상한</th></tr></thead>
+  <tbody>
+    <tr><td>1~3개월</td><td>통상임금 100%</td><td>250만 원</td></tr>
+    <tr><td>4~6개월</td><td>통상임금 100%</td><td>200만 원</td></tr>
+    <tr><td>7개월 이후</td><td>통상임금 80%</td><td>160만 원</td></tr>
+  </tbody>
+</table>
+<p>월 하한액은 70만 원입니다. 2025년부터 급여의 25%를 복직 후에 주던 <strong>사후지급금 제도가 없어져</strong>, 휴직 기간 동안 매달 전액을 받습니다.</p>
+
+<h2>6+6 부모육아휴직제</h2>
+<p>생후 18개월 이내 자녀를 둔 부모가 모두 육아휴직을 쓰면, 각자 첫 6개월 동안 통상임금의 100%를 받고 상한이 매달 올라갑니다.</p>
+<table class="ref">
+  <thead><tr><th>개월</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr></thead>
+  <tbody><tr><th>월 상한</th><td>250만</td><td>250만</td><td>300만</td><td>350만</td><td>400만</td><td>450만</td></tr></tbody>
+</table>
+
+<h2>휴직 기간</h2>
+<p>자녀 1명당 부모 각각 1년이 기본이고, 부모가 모두 3개월 이상 육아휴직을 쓰면(또는 한부모, 중증 장애아동 부모) 각각 1년 6개월까지 늘어납니다.</p>
+
+<h2>자주 묻는 질문</h2>
+<dl class="faq">
+  <dt>누가 받을 수 있나요?</dt>
+  <dd>만 8세 이하(초등학교 2학년 이하) 자녀를 둔 근로자로, 육아휴직 시작 전 고용보험 가입기간(피보험 단위기간)이 180일 이상이면 받을 수 있습니다.</dd>
+  <dt>어디서 신청하나요?</dt>
+  <dd>회사에 육아휴직을 신청한 뒤, 휴직 시작 1개월 후부터 고용24 누리집이나 가까운 고용센터에서 매달 또는 한꺼번에 신청합니다.</dd>
+</dl>
+<p class="updated">기준: 2025년 개편된 육아휴직급여 제도(2026년 적용). 최종 확인 2026년 10월.</p>
+</article>
+
+</div></main>
+<footer class="site"><div class="wrap">
+<p><a href="/about/">사이트 소개</a><a href="/privacy/">개인정보처리방침</a><a href="/terms/">이용약관</a></p>
+<p>계산 결과는 입력값과 공개된 기준으로 낸 추정치이며, 실제 지급액은 회사와 기관의 산정에 따라 다를 수 있습니다.</p>
+<p>© 2026 직장인계산기</p>
+</div></footer>
+<script src="/assets/calc.js"></script>
+<script src="/assets/ui.js"></script>
+<script src="/assets/page-parental.js"></script>
+</body>
+</html>

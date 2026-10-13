@@ -104,7 +104,7 @@ button.primary {
 
 table.breakdown { width: 100%; border-collapse: collapse; font-size: 15px; }
 table.breakdown td { padding: 8px 4px; border-bottom: 1px solid var(--line); }
-table.breakdown td:last-child { text-align: right; font-variant-numeric: tabular-nums; }
+table.breakdown td:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
 table.breakdown tr.total td { font-weight: 700; border-bottom: 0; }
 
 table.ref { width: 100%; border-collapse: collapse; font-size: 14px; margin: 8px 0; }

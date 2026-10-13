@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>시급 월급 연봉 변환 계산기 (2026) | 직장인계산기</title>
+<meta name="description" content="시급, 월급, 연봉 중 하나만 넣으면 나머지를 바로 환산합니다. 주휴수당이 포함된 월 209시간 기준이며 2026년 최저임금과 비교해 줍니다.">
+<link rel="canonical" href="https://jikcalc.com/wage/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="직장인계산기">
+<meta property="og:title" content="시급 월급 연봉 변환 계산기 (2026) | 직장인계산기">
+<meta property="og:description" content="시급, 월급, 연봉 중 하나만 넣으면 나머지를 바로 환산합니다. 주휴수당이 포함된 월 209시간 기준이며 2026년 최저임금과 비교해 줍니다.">
+<meta property="og:url" content="https://jikcalc.com/wage/">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/style.css">
+
+
+<meta name="naver-site-verification" content="1f7d790152742b184659aa43fb7ea9acd8b55f08">
+</head>
+<body>
+<header class="site"><div class="wrap">
+<a class="logo" href="/">직장인<span>계산기</span></a>
+<nav class="top"><a href="/salary/">연봉 실수령액</a><a href="/severance/">퇴직금</a><a href="/weekly-holiday-pay/">주휴수당</a><a href="/unemployment/">실업급여</a><a href="/annual-leave/">연차</a><a href="/insurance/">4대보험</a><a href="/wage/" aria-current="page">시급·월급</a><a href="/parental-leave/">육아휴직</a></nav>
+</div></header>
+<main><div class="wrap">
+<h1>시급 · 월급 · 연봉 변환 계산기</h1>
+<p class="lead">시급, 월급, 연봉 중 아는 것 하나만 넣으면 나머지를 환산하고 2026년 최저임금보다 높은지 알려줍니다.</p>
+
+<div class="card">
+  <div class="grid2">
+    <div class="field">
+      <label for="unit">무엇을 넣을까요?</label>
+      <select id="unit">
+        <option value="hourly">시급</option>
+        <option value="monthly">월급</option>
+        <option value="annual" selected>연봉</option>
+      </select>
+    </div>
+    <div class="field">
+      <label for="amount">금액 (세전)</label>
+      <div class="input-row"><input id="amount" class="money" type="text" inputmode="numeric" value="30,000,000"><span class="unit">원</span></div>
+    </div>
+  </div>
+  <div class="field">
+    <label for="hours">월 소정근로시간 (주휴 포함)</label>
+    <div class="input-row"><input id="hours" type="number" inputmode="numeric" value="209" min="1" max="300"><span class="unit">시간</span></div>
+    <div class="hint">주 40시간 근무는 209시간입니다. 주 20시간이면 104시간입니다.</div>
+  </div>
+  <button class="primary" id="go">변환하기</button>
+
+  <div class="result" id="result">
+    <table class="breakdown">
+      <tr><td>시급</td><td id="r-hourly"></td></tr>
+      <tr><td>일급 (8시간)</td><td id="r-daily"></td></tr>
+      <tr><td>월급</td><td id="r-monthly"></td></tr>
+      <tr class="total"><td>연봉</td><td id="r-annual"></td></tr>
+    </table>
+    <p class="note" id="r-note"></p>
+  </div>
+</div>
+
+<div class="ad-slot"></div>
+
+<article>
+<h2>왜 월 209시간인가요?</h2>
+<p>주 40시간 일하면 주휴시간 8시간이 더해져 일주일에 48시간 치 임금을 받습니다. 한 달은 평균 4.345주(365일 ÷ 7 ÷ 12)이므로 48 × 4.345 ≈ 209시간이 됩니다. 고용노동부도 최저임금 월 환산액을 209시간으로 계산합니다.</p>
+
+<h2>2026년 최저임금 환산표</h2>
+<table class="ref">
+  <thead><tr><th>구분</th><th>금액</th></tr></thead>
+  <tbody>
+    <tr><td>시급</td><td>10,320원</td></tr>
+    <tr><td>일급 (8시간)</td><td>82,560원</td></tr>
+    <tr><td>월급 (209시간)</td><td>2,156,880원</td></tr>
+    <tr><td>연봉</td><td>25,882,560원</td></tr>
+  </tbody>
+</table>
+
+<h2>연봉 계약서를 볼 때 주의할 점</h2>
+<ul>
+  <li><strong>퇴직금 포함 여부</strong>: 연봉에 퇴직금이 포함돼 있으면 실제 연봉은 13분의 12입니다.</li>
+  <li><strong>포괄임금</strong>: 연장근로수당이 미리 포함된 계약이면 기본 시급이 낮아질 수 있으니, 기본급만으로 최저임금을 넘는지 확인하세요.</li>
+  <li><strong>식대 등 비과세</strong>: 최저임금 계산에는 매달 정기적으로 주는 식대, 교통비도 포함됩니다(2024년부터 전액 산입).</li>
+</ul>
+<p class="updated">기준: 2026년 최저임금 시급 10,320원. 최종 확인 2026년 10월.</p>
+</article>
+
+</div></main>
+<footer class="site"><div class="wrap">
+<p><a href="/about/">사이트 소개</a><a href="/privacy/">개인정보처리방침</a><a href="/terms/">이용약관</a></p>
+<p>계산 결과는 입력값과 공개된 기준으로 낸 추정치이며, 실제 지급액은 회사와 기관의 산정에 따라 다를 수 있습니다.</p>
+<p>© 2026 직장인계산기</p>
+</div></footer>
+<script src="/assets/calc.js"></script>
+<script src="/assets/ui.js"></script>
+<script src="/assets/page-wage.js"></script>
+</body>
+</html>
