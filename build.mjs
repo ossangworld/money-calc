@@ -38,6 +38,7 @@ const NAV = [
   ['/raise/', '연봉 인상'],
   ['/retirement-tax/', '퇴직소득세'],
   ['/loan/', '대출이자'],
+  ['/guide/', '가이드'],
 ];
 
 function parsePage(file) {
