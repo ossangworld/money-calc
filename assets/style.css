@@ -131,6 +131,8 @@ article p, article li { font-size: 16px; }
 .faq dt { font-weight: 700; margin-top: 14px; }
 .faq dd { margin: 4px 0 0; color: var(--text); }
 .updated { color: var(--muted); font-size: 13px; }
+.source { color: var(--muted); font-size: 13px; margin-bottom: 4px; }
+.source a { color: inherit; }
 
 footer.site { border-top: 1px solid var(--line); background: var(--surface); padding: 20px 0 32px; font-size: 13px; color: var(--muted); }
 footer.site a { color: var(--muted); margin-right: 12px; }

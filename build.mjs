@@ -24,7 +24,22 @@ function weeklyTable() {
     return `<tr><td>${h}시간</td><td>${r.hours}시간</td><td>${won(r.weekly)}</td><td>${won(r.monthlyWithBase)}</td></tr>`;
   }).join('\n');
 }
-const BLOCKS = { SALARY_TABLE: salaryTable, WEEKLY_TABLE: weeklyTable };
+function salaryTableFull() {
+  const rows = [];
+  for (let man = 2400; man <= 10000; man += man < 6000 ? 100 : 500) {
+    const r = Calc.netSalary({ annual: man * 10000, nonTaxableMonthly: 200000, dependents: 1 });
+    rows.push(`<tr><td>${man.toLocaleString('ko-KR')}만 원</td><td>${won(r.pension + r.health + r.care + r.employment)}</td><td>${won(r.incomeTax + r.localTax)}</td><td>${won(r.netMonthly)}</td></tr>`);
+  }
+  return rows.join('\n');
+}
+function loanTable() {
+  const names = { equal: '원리금균등', principal: '원금균등', bullet: '만기일시' };
+  return ['equal', 'principal', 'bullet'].map(m => {
+    const r = Calc.loan({ principal: 100000000, months: 360, annualRate: 4, method: m });
+    return `<tr><td>${names[m]}</td><td>${won(r.firstPayment)}</td><td>${won(r.rows[r.rows.length - 1].payment)}</td><td>${won(r.totalInterest)}</td></tr>`;
+  }).join('\n');
+}
+const BLOCKS = { SALARY_TABLE: salaryTable, WEEKLY_TABLE: weeklyTable, SALARY_TABLE_FULL: salaryTableFull, LOAN_TABLE: loanTable };
 
 const NAV = [
   ['/salary/', '연봉 실수령액'],
